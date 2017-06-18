@@ -32,7 +32,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://imgur.com/YdDmMQV' title='React Native Flicks App' width='' alt='React Native Flicks App' />
+<img src='http://i.imgur.com/YdDmMQV.gif' title='React Native Flicks App' width='' alt='React Native Flicks App' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
