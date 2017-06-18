@@ -31,7 +31,6 @@ const MovieItem = (props) => {
         <View style={styles.info}>
           <View style={styles.intro}>
             <Text numberOfLines={1} style={styles.title}>{title}</Text>
-
             <View style={styles.iconWrapper}>
               <Text style={styles.rating}>{vote_average}</Text>
               <Icon name="star" size={14} color="#000" />
@@ -44,7 +43,7 @@ const MovieItem = (props) => {
               <Icon name="calendar" size={12} color="#000" />
               <Text style={styles.releaseDate}>{release_date}</Text>
             </View>
-            <Text style={styles.genres}>Animation, Comedy, Drama</Text>
+            {/*<Text style={styles.genres}>Animation, Comedy, Drama</Text>*/}
           </View>
 
           <Text

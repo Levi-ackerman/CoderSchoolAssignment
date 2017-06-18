@@ -9,7 +9,6 @@ import {
 export default class Detail extends Component {
 
   render() {
-    console.log('[Detail.js] render', this.props);
     const {title, vote_average, poster_path, release_date, overview } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>

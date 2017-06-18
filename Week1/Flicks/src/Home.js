@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  Button,
   ListView,
   RefreshControl,
   ActivityIndicator,
 } from 'react-native';
 
 import MovieItem from './uis/MovieItem';
+import Error from './uis/Error';
 
 import {loadNowPlayingMovies} from './Api';
 
@@ -27,12 +26,13 @@ export default class Home extends Component {
       dataSource: ds.cloneWithRows([this.movies]),
       loading: false,
       loadMore: false,
+      error: false,
     };
   }
 
 
   componentDidMount = () => {
-    this.loadMovies(true, false);
+    this.loadMovies(false, false);
   };
 
   onRefresh = () => {
@@ -69,8 +69,9 @@ export default class Home extends Component {
   };
 
   loadMovies = (refresh, loadMore) => {
+    const { screenProps : { type } } = this.props;
     this.showLoading(true, loadMore);
-    loadNowPlayingMovies(this.currentPage)
+    loadNowPlayingMovies(this.currentPage, type)
       .then((response) => {
         this.movies = refresh ? response.results : this.movies.concat(response.results);
         this.setState({
@@ -79,6 +80,7 @@ export default class Home extends Component {
         this.showLoading(false, loadMore);
       })
       .catch((error) => {
+        this.setState({error: true});
         this.showLoading(false, loadMore);
         console.log('[Load now playing movies error] ', error);
       })
@@ -88,12 +90,17 @@ export default class Home extends Component {
     if (loadMore) {
       this.setState({loadMore: value});
     } else {
-      this.setState({loading: value});
+      this.setState({loading: value, error: false});
     }
   };
 
   render() {
-    console.log('[Home.js] render', this.props);
+    if(this.state.error){
+      return(
+        <Error />
+      );
+    }
+
     return (
       <View style={styles.container}>
         <ListView

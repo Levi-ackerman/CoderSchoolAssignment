@@ -17,8 +17,8 @@ const NavStyle = {
   }
 };
 
-const NowPlayingList = ()=> (<Home screenProps={{x
-  : '1'}} />);
+const NowPlayingList = ({navigation})=>
+  (<Home navigation={navigation} screenProps={{type: 'now_playing'}} />);
 
 const NowPlayingTab = StackNavigator({
   Home: {
@@ -37,7 +37,7 @@ const NowPlayingTab = StackNavigator({
   }
 });
 
-const TopRatedList = ()=> (<Home screenProps={{x : '1'}} />);
+const TopRatedList = ({navigation})=> (<Home navigation={navigation} screenProps={{type: 'top_rated'}} />);
 
 const TopRatedTab = StackNavigator({
   Home: {
