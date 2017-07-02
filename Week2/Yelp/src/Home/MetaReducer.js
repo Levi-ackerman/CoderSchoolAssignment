@@ -3,7 +3,7 @@ import { UPDATE_META } from './ActionType';
 
 const initialState = {
   term: '',
-  categories: [{title: 'xxxx'},{ title: 'yyyzzz'}],
+  categories: [],
   location: 'San Francisco',
   distance: { name: '1 km', value: 1000,},
   sortBy: { name: 'Best match', value: 'best_match'},

@@ -28,7 +28,9 @@ const loginWithFacebook = () => (dispatch) => {
             .then(response => response.json())
             .then(responseJson => {
               console.log('[Action.js] get user info', response);
-              alert(`get user info success ${JSON.stringify(responseJson)}`);
+              // alert(`get user info success ${JSON.stringify(responseJson)}`);
+              set('USER_INFO', JSON.stringify(responseJson));
+              dispatch(requestUserTokenSuccess(responseJson))
             })
             .catch(error => {
               alert(`get user info error ${JSON.stringify(error)}`);
