@@ -74,7 +74,7 @@ export const loadYelpData = (loadMore) => (dispatch, getState) => {
   }));
 
 
-  let url = `https://api.yelp.com/v3/businesses/search?location=${meta.location}&term=${meta.term}&categories=${meta.categories}&open_now=${meta.openNow}&offset=${offset}`;
+  let url = `https://api.yelp.com/v3/businesses/search?location=${meta.location}&term=${meta.term}&offset=${offset}`;
 
 
   console.log('[Action.js] loadYelpData ', url);

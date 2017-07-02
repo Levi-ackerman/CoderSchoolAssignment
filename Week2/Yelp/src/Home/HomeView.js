@@ -14,7 +14,6 @@ import {
 import Item from '../Components/Item';
 
 import {AppColors} from '../Styles/index';
-import { getKey } from '../Lib/Utils';
 
 export default class Home extends Component {
 
@@ -28,15 +27,12 @@ export default class Home extends Component {
   }
 
   componentDidMount = () => {
-    // console.log('[HomeView.js] componentDidMount', this.props);
-    // const {loadYelpData} = this.props;
-    // loadYelpData();
+     const {loadYelpData} = this.props;
+     loadYelpData();
   };
 
   componentWillReceiveProps = (nextProps) => {
-    //console.log('[HomeView.js] componentWillReceiveProps', nextProps);
     if(nextProps.meta !== this.props.meta){
-      //console.log('[HomeView.js] componentWillReceiveProps ---------------> change');
       const {fetching, loadYelpData} = this.props;
       if(!fetching){
         loadYelpData(false);
@@ -50,7 +46,6 @@ export default class Home extends Component {
   onRefresh = () => {
     const { fetching, offset, loadYelpData } = this.props;
     if(!fetching && offset >= 0){
-      console.log('[HomeView.js] onRefresh', this.props);
       loadYelpData(false, true);
     }
   };
@@ -61,27 +56,6 @@ export default class Home extends Component {
       console.log('[HomeView.js] onEndReached', this.props);
       loadYelpData(true);
     }
-  };
-
-  handleSearch = (term) => {
-    //console.log('[HomeView.js] componentWillReceiveProps terrmmm', this.props);
-
-    const {token, searchTerm, loadYelpData, navigation} = this.props;
-    navigation.dispatch(searchTerm(term));
-  };
-
-
-  getQueryParams = (loadMore) => {
-    const {currentPage, options: {categories, location, openNow, term}}
-      = this.props.businesses;
-
-    return {
-      offset: (loadMore ? currentPage + 1 : currentPage),
-      term,
-      location,
-      categories: categories.join(','),
-      open_now: openNow,
-    };
   };
 
   renderItem = (item) => {
@@ -95,7 +69,6 @@ export default class Home extends Component {
   };
 
   render() {
-    //console.log('[HomeView.js] render xxx', this.props);
     const { fetching } = this.props;
 
     return (

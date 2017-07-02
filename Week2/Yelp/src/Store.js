@@ -29,18 +29,6 @@ const store = compose(
 )(createStore)(RootReducer);
 
 
-// let prevState
-// store.subscribe(() => {
-//   let state = store.getState()
-//
-//   if (state.meta !== prevState.something) {
-//     store.dispatch(something())
-//   }
-//
-//   prevState = state
-// });
-
-
 //configureAxios(store);
 
 export default store;

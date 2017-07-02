@@ -27,7 +27,7 @@ class SplashView extends Component {
 
   componentDidMount = () => {
     const {requestYelpToken, requestUserToken} = this.props;
-
+    //
     // clear()
     //   .then(() => console.log('[--------> clean success '))
     //   .catch(() => console.log('[----------> clean error] '));
