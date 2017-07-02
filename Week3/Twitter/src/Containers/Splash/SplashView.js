@@ -8,8 +8,8 @@ export default class SplashView extends Component {
   componentDidMount = () => {
     const { navigation, loginSuccess, getUserInfo } = this.props;
 
-     clear()
-       .then(() => {
+     // clear()
+     //   .then(() => {
 
         setTimeout(() => {
           get('USER_TOKEN')
@@ -31,8 +31,8 @@ export default class SplashView extends Component {
 
 
 
-       })
-       .catch(error => console.log('[clear store error] ', error));
+       // })
+       // .catch(error => console.log('[clear store error] ', error));
   };
 
   componentWillReceiveProps = (nextProps) => {
