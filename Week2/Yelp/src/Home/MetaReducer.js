@@ -3,9 +3,10 @@ import { UPDATE_META } from './ActionType';
 
 const initialState = {
   term: '',
-  categories: '',
-  openNow: false,
+  categories: [{title: 'xxxx'},{ title: 'yyyzzz'}],
   location: 'San Francisco',
+  distance: { name: '1 km', value: 1000,},
+  sortBy: { name: 'Best match', value: 'best_match'},
 };
 
 const meta = (state = initialState, action) => {

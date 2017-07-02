@@ -15,7 +15,7 @@ import { AppColors} from '../Styles/index';
 const ITEM_WITH_SWITCH = 1;
 
 const SettingItem = (props) => {
-  const { type, option, value, optionList, optionListTitle } = props;
+  const { type, option, value, onPress } = props;
 
   const renderItemWithSwitch = () => (
     <View style={styles.container}>
@@ -25,14 +25,10 @@ const SettingItem = (props) => {
     );
 
   const renderItemWithoutSwitch = () => (
-    <TouchableHighlight onPress={() => {
-      props.navigation.navigate('ListOptions',
-        {title: optionListTitle, data: optionList, selected: value }
-        )}}
-    >
+    <TouchableHighlight onPress={onPress}>
       <View style={styles.container}>
         <Text style={styles.option} numberOfLines={1}>{option}</Text>
-        <Text style={styles.value} numberOfLines={1}>{value[0].name}</Text>
+        <Text style={styles.value} numberOfLines={1}>{value}</Text>
         <Icon name="keyboard-arrow-right"
               size={32}
               color={AppColors.colorSecondaryText}/>

@@ -28,21 +28,18 @@ const store = compose(
   applyMiddleware(...middleware),
 )(createStore)(RootReducer);
 
-let prevState
-store.subscribe(() => {
-  let state = store.getState();
 
-  if (prevState && state.meta && prevState.meta && state.meta !== prevState.meta) {
-    console.log('[Store.js] store change');
-    let token = state.global.yelpToken.access_token;
-    let currentPage = state.businesses.paginations.currentPage;
-    let meta = state.meta;
-    prevState = state;
-    store.dispatch(resetBusiness());
-    store.dispatch(loadYelpData(token, currentPage, meta));
-  }
-  prevState = state;
-});
+// let prevState
+// store.subscribe(() => {
+//   let state = store.getState()
+//
+//   if (state.meta !== prevState.something) {
+//     store.dispatch(something())
+//   }
+//
+//   prevState = state
+// });
+
 
 //configureAxios(store);
 

@@ -1,5 +1,5 @@
-import { get } from '../Lib/AsyncStorageUtils';
-import { requestUserTokenSuccess } from '../Login/Action';
+import {get, set} from '../Lib/AsyncStorageUtils';
+import {requestUserTokenSuccess} from '../Login/Action';
 
 import {
   REQUEST_YELP_TOKEN,
@@ -33,30 +33,41 @@ const requestUserTokenError = (error) => ({
 });
 
 const requestYelpToken = () => (dispatch) => {
-  fetch('https://api.yelp.com/oauth2/token',{
-    method: 'POST',
-    headers: new Headers({
-      'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-    }),
-    body: `client_id=${params.client_id}&client_secret=${params.client_secret}&grant_type=${params.grant_type}`
-  })
+
+  get('YELP_TOKEN')
     .then((response) => {
-      setTimeout(() => null, 0);
-      return response.json();
+      if (!response) {
+        fetch('https://api.yelp.com/oauth2/token', {
+          method: 'POST',
+          headers: new Headers({
+            'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+          }),
+          body: `client_id=${params.client_id}&client_secret=${params.client_secret}&grant_type=${params.grant_type}`
+        })
+          .then((response) => {
+            setTimeout(() => null, 0);
+            return response.json();
+          })
+          .then((responseJson) => {
+            console.log('[Action.js] requestYelpToken success', responseJson);
+            set('YELP_TOKEN', JSON.stringify(responseJson));
+            dispatch(requestYelpTokenSuccess(responseJson));
+          })
+          .catch((error) => console.log('[Action.js] requestYelpToken error', error));
+
+      } else {
+        console.log('[Action.js] requestYelpToken has save in local');
+        dispatch(requestYelpTokenSuccess(JSON.parse(response)));
+      }
     })
-    .then((responseJson) => {
-      //alert('requestYelpToken', JSON.stringify(responseJson));
-      console.log('[Action.js] requestYelpToken success', responseJson);
-      dispatch(requestYelpTokenSuccess(responseJson));
-    })
-    .catch((error) => console.log('[Action.js] requestYelpToken error', error));
+    .catch((error) => alert('get yelp from local error'));
 
 };
 
 const requestUserToken = () => (dispatch) => {
   get('USER_INFO')
     .then((response) => {
-        dispatch(requestUserTokenSuccess(response));
+      dispatch(requestUserTokenSuccess(response));
     })
     .catch((error) => console.log('[Action.js] requestUserToken error', error));
 };

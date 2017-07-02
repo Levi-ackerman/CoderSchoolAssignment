@@ -1,15 +1,36 @@
-
+import {
+  CREATE_EDITING_SETTING,
+  UPDATE_DISTANCE,
+  UPDATE_SORT_BY,
+  UPDATE_CATEGORIES,
+} from './ActionType';
 
 const initialState = {
-  openNow: false,
-  distance: [{
-    name: '1 mile',
-    value: 1,
-  }],
+  distance: undefined,
+  sortBy: undefined,
+  category: [],
 };
 
-const setting = (state = initialState, action) => {
+export const editSetting = (state = initialState, action) => {
+  const { type, payload } = action;
+  switch (type){
+    case CREATE_EDITING_SETTING:
+      return payload;
+    case UPDATE_DISTANCE:
+      return {
+        ...state,
+        distance: payload,
+      };
+    case UPDATE_SORT_BY:
+      return {
+        ...state,
+        sortBy: payload,
+      };
+    case UPDATE_CATEGORIES:
+      return {
+        ...state,
+        distance: payload,
+      };
+  }
   return state;
 };
-
-export default setting;

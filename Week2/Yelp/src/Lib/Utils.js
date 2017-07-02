@@ -5,3 +5,5 @@ export const delay = (function(){
     timer = setTimeout(callback, ms);
   };
 })();
+
+export const getKey = (params) => `location=${params.location}&term=${params.term}&categories=${params.categories}&open_now=${params.openNow}`;

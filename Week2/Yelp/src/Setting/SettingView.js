@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
-  Text,
   View,
-  Image,
 } from 'react-native';
 
-//component
-import Input from '../Components/Input';
-import RoundButton from '../Components/RoundButton';
 import SettingItem from '../Components/SettingItem';
 //lib and constants
 import { AppColors } from '../Styles/index';
-import { LIST_DISTANCE } from '../Lib/Constant';
+import { CREATE_EDITING_SETTING } from './ActionType';
 
 export default class SettingView extends Component {
 
@@ -21,39 +15,49 @@ export default class SettingView extends Component {
     super();
   }
 
+  componentDidMount = () => {
+    const { meta, navigation } = this.props;
+    navigation.dispatch({
+      type: CREATE_EDITING_SETTING,
+      payload: meta,
+    })
+  };
+
   render() {
-    console.log('[SettingView.js] render', this.props);
-    const { openNow, distance } = this.props;
+    const { editSetting, navigation } = this.props;
+    if(!editSetting.distance){
+      return null;
+    }
+    const { distance, sortBy, category } = editSetting;
+
+    let categoryValue = '';
+    category.map(item => categoryValue += (`${item.title}, `));
+
+
     return (
       <View style={styles.container}>
-        <SettingItem
-          type={1}
-          selected={openNow}
-          option="Open Now"
-        />
 
         <SettingItem
           type={2}
           option="Distance"
-          value={distance}
-          navigation={this.props.navigation}
-          optionList={LIST_DISTANCE}
-          optionListTitle="Distance"
+          value={distance.name}
+          onPress={() => navigation.navigate('Distance', { selected: distance})}
         />
 
         <SettingItem
           type={2}
           option="Sort By"
-          value="Best Match"
-          navigation={this.props.navigation}
+          value={sortBy.name}
+          onPress={() => navigation.navigate('SortBy', { selected: sortBy})}
         />
 
         <SettingItem
           type={2}
           option="Category"
-          value="Mit, xoai oi"
-          navigation={this.props.navigation}
+          value={categoryValue}
+          onPress={() => navigation.navigate('Category')}
         />
+
       </View>
     );
   }

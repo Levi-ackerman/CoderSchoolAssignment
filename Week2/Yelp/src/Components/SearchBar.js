@@ -5,22 +5,32 @@ import {
   TextInput,
   View,
   Button,
-  Platform
+  Platform,
+  ActivityIndicator,
 } from 'react-native';
 import { loadYelpData, searchTerm, updateMeta } from '../Home/Action';
 import { AppColors} from '../Styles/index';
 import {delay} from '../Lib/Utils';
+import { searchIndicator } from '../Home/UIReducer';
 
 const SearchBar = (props) => {
   console.log('[SearchBar.js] SearchBar', props);
-  const { navigation : { navigate }, searchTerm, token } = props;
+  const { navigation : { navigate }, searchTerm, token, loading } = props;
 
   const onChangeText = (term) => {
     if(term === null || term === undefined){
       term = '';
     }
+
+    if(!loading){
+      props.navigation.dispatch(searchIndicator(true));
+    }
+
+    if(loading && term === ''){
+      props.navigation.dispatch(searchIndicator(false));
+    }
+
     delay(() => {
-      //alert(term);
       props.navigation.dispatch(updateMeta({term}));
     }, 300);
   };
@@ -35,8 +45,20 @@ const SearchBar = (props) => {
           autoCapitalize={'none'}
           returnKeyType={'search'}
           onChangeText={onChangeText}
+          autoCorrect={false}
           style={styles.input}/>
       </View>
+
+      {
+        loading ? (
+          <ActivityIndicator
+            style={{width: 40 }}
+            animating={true}
+            color={'#FFF'}
+          />
+        ): null
+      }
+
     </View>
   )
 };
@@ -69,7 +91,9 @@ const styles = StyleSheet.create({
 // What data from the store shall we send to the component?
 const mapStateToProps = (state) => {
   return {
+    meta: state.meta,
     token : state.global.yelpToken.access_token,
+    loading: state.ui.searchIndicator,
   }
 };
 

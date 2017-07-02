@@ -4,22 +4,38 @@ import { loadYelpData, searchTerm, resetBusiness } from './Action';
 
 import HomeView from './HomeView';
 
+import { getKey } from '../Lib/Utils';
+
 // What data from the store shall we send to the component?
 const mapStateToProps = (state) => {
-  const {entities, paginations} = state.businesses;
+  const {entities, paginations } = state.businesses;
+  const meta  = state.meta;
+
 
   let data = [];
-  for (let key in entities) {
-    if (entities.hasOwnProperty(key)) {
-      data.push(entities[key]);
+  // let key = getKey(meta);
+  let _fetching = false;
+  let _offset = -1;
+
+  if(paginations.key && paginations.pages.hasOwnProperty(paginations.key)){
+    const { ids, fetching, offset  } = state.businesses.paginations.pages[paginations.key];
+    _fetching = fetching;
+    _offset = offset;
+
+    for (let id in ids) {
+      if (entities.hasOwnProperty(ids[id])) {
+        data.push(entities[ids[id]]);
+      }
     }
   }
+
 
   return {
     token: state.global.yelpToken.access_token,
     data,
-    paginations,
-    meta: state.meta,
+    meta,
+    fetching: _fetching,
+    offset: _offset,
   }
 };
 

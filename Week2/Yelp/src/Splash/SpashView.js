@@ -9,6 +9,8 @@ import { navigateTo } from '../Lib/NavigationUtils';
 // Consts and Libs
 import { AppStyles } from '../Styles/index';
 
+import { clear } from '../Lib/AsyncStorageUtils';
+
 /* Component ==================================================================== */
 class SplashView extends Component {
 
@@ -25,18 +27,27 @@ class SplashView extends Component {
 
   componentDidMount = () => {
     const {requestYelpToken, requestUserToken} = this.props;
+
+    // clear()
+    //   .then(() => console.log('[--------> clean success '))
+    //   .catch(() => console.log('[----------> clean error] '));
+
     setTimeout(() => {
       requestYelpToken();
-      //requestUserToken();
+      requestUserToken();
     }, 1500);
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const { yelpToken } = nextProps;
+    const { yelpToken, user} = nextProps;
     if (yelpToken) {
-       navigateTo('Home', this.props.navigation);
+      if(user){
+        navigateTo('Home', this.props.navigation);
+      }else {
+        navigateTo('Login', this.props.navigation);
+      }
     }else{
-      navigateTo('Login', this.props.navigation);
+      alert('Cant get Yelp token');
     }
   };
 

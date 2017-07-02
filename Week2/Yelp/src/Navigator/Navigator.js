@@ -9,6 +9,9 @@ import HomeScreen from '../Home/HomeContainer';
 import SplashScreen from '../Splash/SplashContainer';
 import SettingScreen from '../Setting/SettingContainer';
 import ListOptionsView from '../Setting/ListOptionsView';
+import DistanceView from '../Setting/DistanceView';
+import CategoryView from '../Setting/CategoryView';
+import SortByView from '../Setting/SortByView';
 
 import SearchBar from '../Components/SearchBar';
 
@@ -175,6 +178,45 @@ const AppNavigator = StackNavigator({
     screen: ListOptionsView,
     navigationOptions: ({navigation}) => ({
       title: navigation.state.params.title,
+      headerStyle: {
+        backgroundColor: AppColors.colorPrimary,
+        shadowColor: AppColors.colorPrimary,
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    })
+  },
+  Distance: {
+    screen: DistanceView,
+    navigationOptions: ({navigation}) => ({
+      title: 'Distance',
+      headerStyle: {
+        backgroundColor: AppColors.colorPrimary,
+        shadowColor: AppColors.colorPrimary,
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    })
+  },
+  Category: {
+    screen: CategoryView,
+    navigationOptions: ({navigation}) => ({
+      title: 'Category',
+      headerStyle: {
+        backgroundColor: AppColors.colorPrimary,
+        shadowColor: AppColors.colorPrimary,
+      },
+      headerTitleStyle: {
+        color: 'white',
+      },
+    })
+  },
+  SortBy: {
+    screen: SortByView,
+    navigationOptions: ({navigation}) => ({
+      title: 'Sort By',
       headerStyle: {
         backgroundColor: AppColors.colorPrimary,
         shadowColor: AppColors.colorPrimary,

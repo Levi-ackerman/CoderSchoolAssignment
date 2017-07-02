@@ -6,7 +6,7 @@ import SpashView from './SpashView';
 
 // What data from the store shall we send to the component?
 const mapStateToProps = state => {
-  return {yelpToken: state.global.yelpToken}
+  return state.global;
 };
 
 // Any actions to map to the component?

@@ -14,13 +14,9 @@ import {
 import Item from '../Components/Item';
 
 import {AppColors} from '../Styles/index';
-import {delay} from '../Lib/Utils';
+import { getKey } from '../Lib/Utils';
 
 export default class Home extends Component {
-
-  // static navigationOptions = {
-  //   header: (navigation) => <Search navigation={navigation} />,
-  // };
 
   constructor() {
     super();
@@ -28,41 +24,42 @@ export default class Home extends Component {
     this.state = {
       dataSource: ds.cloneWithRows([]),
       loadMore: false,
-      //updated: false,
     };
   }
 
   componentDidMount = () => {
-    console.log('[HomeView.js] componentDidMount', this.props);
-    const {token, meta, paginations: {currentPage, pages}, loadYelpData} = this.props;
-    // loadYelpData(token, {page: currentPage, loadMore: false});
-    loadYelpData(token, currentPage, meta);
+    // console.log('[HomeView.js] componentDidMount', this.props);
+    // const {loadYelpData} = this.props;
+    // loadYelpData();
   };
 
   componentWillReceiveProps = (nextProps) => {
-    this.updated = false;
-    console.log('[HomeView.js] componentWillReceiveProps', nextProps);
-    const {data, paginations: {currentPage, pages}} = nextProps;
-    if (pages[currentPage] && !pages[currentPage].fetching) {
-      this.setState({dataSource: this.state.dataSource.cloneWithRows(data)});
+    //console.log('[HomeView.js] componentWillReceiveProps', nextProps);
+    if(nextProps.meta !== this.props.meta){
+      //console.log('[HomeView.js] componentWillReceiveProps ---------------> change');
+      const {fetching, loadYelpData} = this.props;
+      if(!fetching){
+        loadYelpData(false);
+      }
     }
-  };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    this.updated = true;
+    const {data } = nextProps;
+    this.setState({dataSource: this.state.dataSource.cloneWithRows(data)});
   };
 
   onRefresh = () => {
-    const {token, meta, loadYelpData} = this.props;
-    this.props.navigation.dispatch(this.props.resetBusiness);
-    loadYelpData(token, 1, meta);
+    const { fetching, offset, loadYelpData } = this.props;
+    if(!fetching && offset >= 0){
+      console.log('[HomeView.js] onRefresh', this.props);
+      loadYelpData(false, true);
+    }
   };
 
   onEndReached = () => {
-    console.log('[HomeView.js] onEndReached', this.updated);
-    const {token, data, meta, paginations: {currentPage}, loadYelpData} = this.props;
-    if (data.length >= currentPage * 20) {
-      loadYelpData(token, currentPage + 1, meta);
+    const { fetching, offset, loadYelpData } = this.props;
+    if(!fetching && offset >= 0){
+      console.log('[HomeView.js] onEndReached', this.props);
+      loadYelpData(true);
     }
   };
 
@@ -98,9 +95,9 @@ export default class Home extends Component {
   };
 
   render() {
-    console.log('[HomeView.js] render xxx', this.props);
-    const {currentPage, pages} = this.props.paginations;
-    const refreshing = !!pages[currentPage] && pages[currentPage].fetching;
+    //console.log('[HomeView.js] render xxx', this.props);
+    const { fetching } = this.props;
+
     return (
       <ListView
         style={styles.container}
@@ -112,7 +109,7 @@ export default class Home extends Component {
         renderFooter={this.renderFooter}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={fetching}
             onRefresh={this.onRefresh}
             tintColor={AppColors.colorPrimary}
           />

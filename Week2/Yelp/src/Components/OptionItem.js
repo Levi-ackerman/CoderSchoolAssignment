@@ -10,13 +10,25 @@ import {
 import { AppColors} from '../Styles/index';
 
 const OptionItem = (props) => {
-  const {item, onValueChange} = props;
+  const {item, onValueChange, selectedValues} = props;
+
+  let selected = false;
+  if(selectedValues){
+    for(let i = 0; i < selectedValues.length; i++){
+      if(selectedValues[i] === item.alias){
+        selected = true;
+        break;
+      }
+    }
+  }else {
+    selected = item.selected;
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.option} numberOfLines={1}>{item.name}</Text>
+      <Text style={styles.value} numberOfLines={1}>{item.title || item.name}</Text>
       <Switch onValueChange={(value) => onValueChange(value, item)}
-              value={item.selected} tintColor={AppColors.colorPrimary} />
+              value={selected} tintColor={AppColors.colorPrimary} />
     </View>
   );
 };
@@ -31,15 +43,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  option: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: '400',
-    marginRight: 16
-  },
   value: {
+    flex: 1,
     fontSize: 14,
-    fontWeight: '800',
+    fontWeight: '400',
   },
 });
 

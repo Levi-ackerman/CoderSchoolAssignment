@@ -59,46 +59,51 @@ const businesses = (state = initialState, action) => {
 
 
 const pages = (pages = {}, action = {}) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case 'REQUEST_BUSINESS_PAGE':
       return {
         ...pages,
-        [action.payload.page]: {
-          ids: [],
-          fetching: true
+        [payload.key]: {
+          ids: pages[payload.key] ? pages[payload.key].ids : [],
+          fetching: true,
+          offset: payload.offset,
         }
       };
     case 'RECEIVE_BUSINESS_PAGE':
-      return {
+      let ids = [
+        ...pages[payload.key].ids,
+        ...payload.data.map(item => item.id)
+      ];
+      let x = {
         ...pages,
-        [action.payload.page]: {
-          ids: action.payload.business.map(item => item.id),
-          fetching: false
+        [payload.key]: {
+          ...pages[payload.key],
+          ids,
+          fetching: false,
         }
       };
+      return x;
     case RESET_BUSINESS: return {};
     default:
       return pages
   }
 };
 
-const currentPage = (currentPage = 1, action = {}) => {
+const key = (key = '', action = {}) => {
   switch (action.type){
     case 'REQUEST_BUSINESS_PAGE':
-      return action.payload.page;
-    case RESET_BUSINESS:
-      return 1;
-    default: return currentPage;
+      return action.payload.key;
+    default:
+      return key;
   }
 } ;
-   // action.type === 'REQUEST_BUSINESS_PAGE' ? action.payload.page : currentPage;
-
 
 const entities = (state = {}, action = {}) => {
   switch (action.type) {
     case 'RECEIVE_BUSINESS_PAGE':
       let _entities = {};
-      for (let entity of action.payload.business) {
+      for (let entity of action.payload.data) {
         _entities = {
           ..._entities,
           [entity.id]: entity
@@ -108,7 +113,6 @@ const entities = (state = {}, action = {}) => {
         ...state,
         ..._entities
       };
-    case RESET_BUSINESS: return {};
     default:
       return state
   }
@@ -116,7 +120,7 @@ const entities = (state = {}, action = {}) => {
 
 const paginations = combineReducers({
   pages,
-  currentPage
+  key,
 });
 
 export default combineReducers({
