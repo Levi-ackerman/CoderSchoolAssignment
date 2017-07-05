@@ -1,17 +1,14 @@
 import React from 'react';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
-//import store from '../Redux/Store';
 
-import Test1 from '../Components/Test1';
-import Test2 from '../Components/Test1';
-
-import HomeView from '../Containers/Home/HomeView';
 import LoginScreen from '../Containers/Login/LoginContainer';
 import SplashScreen from '../Containers/Splash/SplashContainer';
 import HomeScreen from '../Containers/Home/HomeContainer';
+import ReplyScreen from '../Containers/Reply/ReplyContainer';
 
 import Drawer from '../Components/Drawer';
 import MenuButton from '../Components/MenuButton';
+import { MENU_TYPE_HOME, MENU_TYPE_TIME_LINE } from '../Utils/Constants';
 
 
 import {AppColors} from '../Styles/index';
@@ -19,7 +16,7 @@ import {AppColors} from '../Styles/index';
 const drawerNavigationOptions = ({screenProps, navigation}) => {
   return {
     headerStyle: {
-      backgroundColor: AppColors.colorPrimary,
+      backgroundColor: '#138BF2',
       shadowColor: AppColors.colorPrimary,
     },
     headerTitleStyle: {
@@ -31,9 +28,20 @@ const drawerNavigationOptions = ({screenProps, navigation}) => {
 
 const HomeNav = StackNavigator({
   HomeNav: {
-    screen: HomeScreen,
+    screen: ({ navigation }) => <HomeScreen navigation={navigation} screenProps={{type : MENU_TYPE_HOME}} />,
     navigationOptions: {
       title: 'Home',
+    }
+  }
+}, {
+  navigationOptions: drawerNavigationOptions,
+});
+
+const TimeLineNav = StackNavigator({
+  TimeLineNav: {
+    screen: ({ navigation }) => <HomeScreen navigation={navigation} screenProps={{type : MENU_TYPE_TIME_LINE}} />,
+    navigationOptions: {
+      title: 'TimeLine',
     }
   }
 }, {
@@ -43,6 +51,9 @@ const HomeNav = StackNavigator({
 const MainScreenNavigator = DrawerNavigator({
   Home: {
     screen: HomeNav,
+  },
+  TimeLine: {
+    screen: TimeLineNav,
   }
 }, {
   contentComponent: Drawer,
@@ -58,6 +69,9 @@ const AppNavigator = StackNavigator({
   },
   Main: {
     screen: MainScreenNavigator
+  },
+  Reply: {
+    screen: ReplyScreen
   },
 }, {
   headerMode: 'none',

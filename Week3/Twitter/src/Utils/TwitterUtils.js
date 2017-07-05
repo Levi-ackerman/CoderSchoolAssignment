@@ -1,5 +1,6 @@
 import Crypto from 'crypto-js';
 import {KEY} from './Constants';
+import { Constants } from 'expo';
 
 // Twitter keys
 const twitterConsumerSecret = KEY.twitterConsumerSecret;
@@ -11,7 +12,7 @@ const requestTokenURL = '/oauth/request_token';
 const authorizationURL = '/oauth/authorize';
 const accessURL = '/oauth/access_token';
 const baseURL = 'https://api.twitter.com';
-const callbackURL = 'exp://localhost:19000/+/redirect';
+const callbackURL = `${Constants.linkingUri}/+/redirect`;
 
 export const requestUrl = () => {
 

@@ -1,6 +1,7 @@
 import {
   UPDATE_TOKEN,
   UPDATE_USER_INFO,
+  LOGOUT,
 } from './ActionType';
 
 const token = (state = {}, action) => {
@@ -19,6 +20,10 @@ const user = (state = { loggedIn: false }, action) => {
       return {
         ...state,
         ...payload,
+      };
+    case LOGOUT:
+      return {
+        loggedIn: false,
       };
     default: return state;
   }

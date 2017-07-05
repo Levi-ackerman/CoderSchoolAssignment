@@ -5,13 +5,13 @@ import {
   View,
   Text,
 } from 'react-native';
+import { MaterialIcons, Entypo } from '@expo/vector-icons';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MenuItem = (props) => {
   const { selected, icon, routeName, navigate } = props;
-  const bgColor = (selected ? '#BDBDBD' : '#FFF');
-  const iconColor = (selected ? '#000' : '#757575');
+  const bgColor = (selected ? '#FFF' : '#138BF2');
+  const iconColor = (selected ? '#FFF' : '#138BF2');
 
   return (
     <TouchableOpacity
@@ -19,9 +19,9 @@ const MenuItem = (props) => {
         navigate('DrawerClose');
         navigate(routeName);
       }}>
-      <View style={[styles.menuWrapper, {backgroundColor: bgColor}]}>
-        <Icon style={styles.icon} name={icon} color={iconColor} size={24} />
-        <Text style={styles.title}>{routeName}</Text>
+      <View style={[styles.menuWrapper, {backgroundColor: '#262C36'}]}>
+        <MaterialIcons name={icon} color={iconColor} size={24} />
+        <Text style={[styles.title, {color : bgColor}]}>{routeName}</Text>
       </View>
     </TouchableOpacity>
   )

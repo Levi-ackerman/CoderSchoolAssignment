@@ -1,4 +1,7 @@
 export const KEY = {
-  twitterConsumerKey: 'TMBsLKj5dDx95LMpDB53x5kCd',
-  twitterConsumerSecret: 'lzTd45LbVrSUv5qAarsLG3pugB3rZeXwYGOcSXKopvOC1CB0Wu',
+  twitterConsumerKey: 'eodDb0UXfLWPiHF6ioytGTVTq',
+  twitterConsumerSecret: 'rQYqxVjOLY2AqKBDH9lsBoOfgGKZMC4ZNnkjLnmVXxqiZ20QLP',
 };
+
+export const MENU_TYPE_HOME = 'MENU_TYPE_HOME';
+export const MENU_TYPE_TIME_LINE = 'MENU_TYPE_TIMELINE';

@@ -31,7 +31,6 @@ export default class LoginView extends Component {
 
 
   _handleTwitterRedirect = (event) => {
-    console.log('[LoginView.js] event', event);
     if (!event.url.includes('+/redirect')) {
       return;
     }
@@ -47,7 +46,6 @@ export default class LoginView extends Component {
 
     getAccessToken(verifier, authToken, secretToken)
       .then(response => {
-        console.log('[_handleTwitterRedirect.js]  redirect twitter', response);
         const accessTokenResponse = parseFormEncoding(response);
 
         set('USER_TOKEN', JSON.stringify(accessTokenResponse))
@@ -67,7 +65,6 @@ export default class LoginView extends Component {
   onPress = () => {
     requestUrl()
       .then((response) => {
-        console.log('[LoginView.js]vv success', response);
         const tokenResponse = parseFormEncoding(response);
         authToken = tokenResponse.oauth_token;
         secretToken = tokenResponse.oauth_token_secret;
@@ -76,7 +73,6 @@ export default class LoginView extends Component {
 
         WebBrowser.openBrowserAsync(authURL)
           .then(response => {
-            console.log('[LoginView.js]  redirect twitter', response);
           })
           .catch((error) => console.log('[LoginView.js] redirect twitter error', error))
 
@@ -85,7 +81,6 @@ export default class LoginView extends Component {
   };
 
   render() {
-    console.log('[LoginView.js] render', this.props);
     return (
       <Container style={styles.container}>
         <Button iconLeft onPress={this.onPress}>

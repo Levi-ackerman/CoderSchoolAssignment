@@ -3,6 +3,7 @@ import {
   View,
   StatusBar,
 } from 'react-native';
+import { Root } from 'native-base';
 import {addNavigationHelpers} from 'react-navigation';
 import { AppColors } from '../Styles/index';
 
@@ -30,6 +31,7 @@ class NavigatorView extends Component {
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle="light-content" backgroundColor={AppColors.colorPrimaryDark}/>
+       <Root>
         <AppNavigator
           navigation={
             addNavigationHelpers({
@@ -38,6 +40,7 @@ class NavigatorView extends Component {
             })
           }
         />
+       </Root>
       </View>
     );
   }

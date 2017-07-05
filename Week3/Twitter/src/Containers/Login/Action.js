@@ -1,6 +1,7 @@
 import {
   UPDATE_TOKEN,
   UPDATE_USER_INFO,
+  LOGOUT,
 } from './ActionType';
 import { KEY } from '../../Utils/Constants';
 import { getHeaders } from 'react-native-simple-auth/lib/utils/oauth1';
@@ -14,6 +15,10 @@ const updateUserInfo = (payload) => ({
   type: UPDATE_USER_INFO,
   payload,
 });
+
+const logout = () => ({
+  type: LOGOUT,
+})
 
 const getUserInfo = (token) => (dispatch) => {
 
@@ -39,6 +44,9 @@ const getUserInfo = (token) => (dispatch) => {
         url: response.url,
         profileImageUrl: response.profile_image_url,
         profileBannerUrl: response.profile_banner_url,
+        friends: response.friends_count,
+        followers: response.followers_count,
+        statuses: response.statuses_count,
       };
       dispatch(updateUserInfo(user));
     })
@@ -52,4 +60,5 @@ export {
   updateToken,
   updateUserInfo,
   getUserInfo,
+  logout,
 }

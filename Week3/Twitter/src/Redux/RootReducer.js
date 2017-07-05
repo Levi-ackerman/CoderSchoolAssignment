@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import Nav from '../Navigator/NavigatorState';
 import { token, user } from '../Containers/Login/Reducer';
 import { ui } from '../Redux/UIReducer';
-import { home } from '../Containers/Home/Reducer';
+import { home, timeline } from '../Containers/Home/Reducer';
 
 // Combine all
 const appReducer = combineReducers({
@@ -12,6 +12,7 @@ const appReducer = combineReducers({
   user,
   ui,
   home,
+  timeline,
 });
 
 // Setup root reducer

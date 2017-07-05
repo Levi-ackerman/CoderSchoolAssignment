@@ -1,55 +1,81 @@
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   View,
-  Image,
-  Button,
+  TouchableOpacity,
   AsyncStorage,
 } from 'react-native';
+import {
+  Container,
+  Content,
+  Thumbnail,
+  H3,
+  Text,
+  Button,
+} from 'native-base';
 import MenuItem from './MenuItem';
+import {logout} from '../Containers/Login/Action';
+import {SHOW_USER_DIALOG} from '../Redux/UIReducer';
 
 const Drawer = (props) => {
- const {user, navigation: { navigate, state : {index , routes}}} = props;
-
+  const {user, navigation: {navigate, state: {index, routes}}, logout} = props;
   const getIcon = (index) => {
-    switch (index){
-      case 0: return 'cc-discover';
-      case 1: return 'film';
-      case 2: return 'television';
-      case 3: return 'users';
-      default: return 'cc-discover';
+    switch (index) {
+      case 0:
+        return 'home';
+      case 1:
+        return 'timeline';
+      case 2:
+        return 'television';
+      case 3:
+        return 'users';
+      default:
+        return 'cc-discover';
     }
   };
 
+  const openProfile = () => {
+    navigate('DrawerClose');
+    setTimeout(() => props.openProfile(), 400);
+  };
+
   return (
-    <View style={{flex: 1}}>
-      <View style={styles.menuHeader}>
-        <Image style={styles.imageBackground}
-               source={{uri: user.profileBannerUrl}}>
-          <Image style={styles.avatar}
-                 source={{uri: user.profileImageUrl}}/>
-          <Text style={styles.userName}>{user.name}</Text>
-          <Text style={styles.email}>{`${user.name}@gmail.com`}</Text>
-        </Image>
-      </View>
+    <Container style={{backgroundColor: '#262C36'}}>
+      <Content>
+        <View style={{height: 200, justifyContent: 'center', alignItems: 'center'}}>
+          <TouchableOpacity
+            onPress={openProfile}
+            activeOpacity={0.5}
+          >
+            <Thumbnail
+              large source={{uri: user.profileImageUrl}}/>
+          </TouchableOpacity>
+          <H3 style={{color: '#fff', marginTop: 16}}>{user.name}</H3>
+          <Text style={{color: '#fff'}} note>{`@${user.screen_name}`}</Text>
+        </View>
+        <View style={styles.menuContent}>
+          {
+            routes.map((item, i) => {
 
-      <View style={styles.menuContent}>
-        {
-          routes.map((item, i) => {
+              return (<MenuItem key={item.routeName} icon={getIcon(i)} {...item} navigate={navigate}
+                                selected={index === i}/>);
+            })
+          }
+        </View>
+      </Content>
 
-            return (<MenuItem key={item.routeName} icon={getIcon(i)} {...item} navigate={navigate} selected={index === i} />);
-          })
-        }
-      </View>
+      <Button
+        transparent
+        onPress={() => {
+          AsyncStorage.clear();
+          logout();
+          navigate('Login');
+        }}>
+        <Text style={{ color: '#FFF'}}> Logout </Text>
+      </Button>
 
-      <Button buttonStyle={{margin: 16}} title={'Logout'} onPress={() => {
-        AsyncStorage.clear();
-        navigate('Login');
-      }}/>
-
-    </View>
+    </Container>
   )
 };
 
@@ -95,4 +121,14 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Drawer);
+const mapDispatchToProps = dispatch => {
+  return {
+    openProfile: () => dispatch({
+      type: SHOW_USER_DIALOG,
+      payload: true,
+    }),
+    logout: () => dispatch(logout()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Drawer);

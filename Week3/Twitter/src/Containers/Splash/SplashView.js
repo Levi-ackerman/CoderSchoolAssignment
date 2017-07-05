@@ -19,12 +19,10 @@ export default class SplashView extends Component {
                 loginSuccess(responseJson);
                 getUserInfo(responseJson);
               }else {
-                console.log('[SplashView.js] Storage with key USER_TOKEN is empty. Go login');
                 navigateTo('Login', navigation);
               }
             })
             .catch(() => {
-              console.log('[SplashView.js] cant get token from storage. Go login');
               navigateTo('Login', navigation);
             });
         }, 2000);
